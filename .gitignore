@@ -1,0 +1,6 @@
+*.txt
+.env
+.idea/
+__pycache__/
+venv/
+terminaltables_example.py
