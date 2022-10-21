@@ -1,7 +1,7 @@
 from utils import get_vacancies_hh
 from utils import predict_rub_salary_hh
 from utils import predict_rub_salary_sj
-from utils import to_table
+from utils import transformation_for_table
 from dotenv import load_dotenv
 from terminaltables import AsciiTable
 import requests
@@ -61,8 +61,8 @@ def get_from_superjob(languages):
 def main():
     languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++',
                  'CSS', 'C#', 'Shell', 'Go']
-    statistics_sj = to_table(get_from_superjob(languages))
-    statistics_hh = to_table(get_from_hh(languages))
+    statistics_sj = transformation_for_table(get_from_superjob(languages))
+    statistics_hh = transformation_for_table(get_from_hh(languages))
     table_sj = AsciiTable(statistics_sj, 'SuperJob, Moscow')
     table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
     print(table_sj.table)

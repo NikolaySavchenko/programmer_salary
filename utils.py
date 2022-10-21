@@ -46,7 +46,7 @@ def predict_rub_salary_sj(vacancy):
         return predict_salary(vacancy['payment_from'], vacancy['payment_to'])
 
 
-def to_table(statistic):
+def transformation_for_table(statistic):
     table_data = [['Язык программирования', 'Вакансий найдено',
                    'Вакансий обработано', 'Средняя зарплата'], ]
     for language in statistic:
