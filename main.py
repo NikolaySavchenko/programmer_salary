@@ -21,9 +21,10 @@ def get_salary_hh(languages):
         for page in range(number_of_pages):
             try:
                 for vacancy in vacancies[page]["items"]:
-                    if predict_rub_salary_hh(vacancy):
+                    predict_salary = predict_rub_salary_hh(vacancy)
+                    if predict_salary:
                         vacancies_processed += 1
-                        sum_salary += predict_rub_salary_hh(vacancy)
+                        sum_salary += predict_salary
             except IndexError:
                 break
         average_salary[language]['vacancies_processed'] = vacancies_processed
@@ -49,10 +50,11 @@ def get_salary_sj(languages, headers):
         vacancies_processed = 0
         sum_salary = 0
         for page in range(max_page):
+            predict_salary = predict_rub_salary_sj(vacancy)
             for vacancy in vacancies[page]['objects']:
-                if predict_rub_salary_sj(vacancy):
+                if predict_salary:
                     vacancies_processed += 1
-                    sum_salary += predict_rub_salary_sj(vacancy)
+                    sum_salary += predict_salary
         average_salary[language]['vacancies_processed'] = vacancies_processed
         average_salary[language]['average_salary'] = int(sum_salary / vacancies_processed)
     return average_salary
