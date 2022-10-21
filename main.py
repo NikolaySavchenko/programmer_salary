@@ -34,19 +34,21 @@ def get_salary_hh(languages):
 def get_salary_sj(languages, headers):
     url = 'https://api.superjob.ru/2.0/vacancies/'
     average_salary = dict()
+    moscow_id = 4
+    max_page = 5
     for language in languages:
         average_salary[language] = dict()
         vacancies = list()
-        for page in range(5):
+        for page in range(max_page):
             payload = {'keyword': language, 'page': page, 'count': 100,
-                       't': 4, 'catalogues': 'Разработка, программирование'}
+                       't': moscow_id, 'catalogues': 'Разработка, программирование'}
             response = requests.get(url, params=payload, headers=headers)
             response.raise_for_status()
             vacancies.append(response.json())
         average_salary[language]['vacancies_found'] = vacancies[0]['total']
         vacancies_processed = 0
         sum_salary = 0
-        for page in range(5):
+        for page in range(max_page):
             for vacancy in vacancies[page]['objects']:
                 if predict_rub_salary_sj(vacancy):
                     vacancies_processed += 1
