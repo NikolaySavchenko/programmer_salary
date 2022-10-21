@@ -31,9 +31,8 @@ def get_salary_hh(languages):
     return average_salary
 
 
-def get_salary_sj(languages):
+def get_salary_sj(languages, headers):
     url = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': os.environ['SUPERJOB_TOKEN']}
     average_salary = dict()
     for language in languages:
         average_salary[language] = dict()
@@ -57,10 +56,10 @@ def get_salary_sj(languages):
     return average_salary
 
 
-def main():
+def main(headers):
     languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++',
                  'CSS', 'C#', 'Shell', 'Go']
-    statistics_sj = transformation_for_table(get_salary_sj(languages))
+    statistics_sj = transformation_for_table(get_salary_sj(languages, headers))
     statistics_hh = transformation_for_table(get_salary_hh(languages))
     table_sj = AsciiTable(statistics_sj, 'SuperJob, Moscow')
     table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
@@ -70,4 +69,5 @@ def main():
 
 if __name__ == '__main__':
     load_dotenv()
-    main()
+    headers_sj = {'X-Api-App-Id': os.environ['SUPERJOB_TOKEN']}
+    main(headers_sj)
