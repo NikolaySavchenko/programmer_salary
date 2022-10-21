@@ -32,7 +32,6 @@ def get_salary_hh(languages):
 
 
 def get_salary_sj(languages):
-    load_dotenv()
     url = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': os.environ['SUPERJOB_TOKEN']}
     average_salary = dict()
@@ -70,4 +69,5 @@ def main():
 
 
 if __name__ == '__main__':
+    load_dotenv()
     main()
