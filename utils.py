@@ -47,11 +47,11 @@ def predict_rub_salary_sj(vacancy):
 
 
 def transformation_for_table(statistic):
-    table_data = [['Язык программирования', 'Вакансий найдено',
+    for_table = [['Язык программирования', 'Вакансий найдено',
                    'Вакансий обработано', 'Средняя зарплата'], ]
     for language in statistic:
         language_solar = [language, statistic[language]['vacancies_found'],
                           statistic[language]['vacancies_processed'],
                           statistic[language]['average_salary']]
-        table_data.append(language_solar)
-    return table_data
+        for_table.append(language_solar)
+    return for_table
