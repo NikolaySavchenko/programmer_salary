@@ -28,7 +28,8 @@ def get_salary_hh(languages):
             except IndexError:
                 break
         average_salary[language]['vacancies_processed'] = vacancies_processed
-        average_salary[language]['average_salary'] = int(sum_salary / vacancies_processed)
+        average_salary[language]['average_salary'] = int(sum_salary /
+                                                         vacancies_processed)
     return average_salary
 
 
@@ -42,7 +43,7 @@ def get_salary_sj(languages, headers):
         vacancies = list()
         for page in range(max_page):
             payload = {'keyword': language, 'page': page, 'count': 100,
-                       't': moscow_id, 'catalogues': 'Разработка, программирование'}
+                't': moscow_id, 'catalogues': 'Разработка, программирование'}
             response = requests.get(url, params=payload, headers=headers)
             response.raise_for_status()
             vacancies.append(response.json())
@@ -50,13 +51,14 @@ def get_salary_sj(languages, headers):
         vacancies_processed = 0
         sum_salary = 0
         for page in range(max_page):
-            predict_salary = predict_rub_salary_sj(vacancy)
             for vacancy in vacancies[page]['objects']:
+                predict_salary = predict_rub_salary_sj(vacancy)
                 if predict_salary:
                     vacancies_processed += 1
                     sum_salary += predict_salary
         average_salary[language]['vacancies_processed'] = vacancies_processed
-        average_salary[language]['average_salary'] = int(sum_salary / vacancies_processed)
+        average_salary[language]['average_salary'] = int(sum_salary /
+                                                        vacancies_processed)
     return average_salary
 
 
