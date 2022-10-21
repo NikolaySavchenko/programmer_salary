@@ -8,7 +8,7 @@ import requests
 import os
 
 
-def get_from_hh(languages):
+def get_salary_hh(languages):
     number_of_pages = 100
     par = {'area': '1', 'per_page': '50', 'period': '30'}
     average_salary = dict()
@@ -31,7 +31,7 @@ def get_from_hh(languages):
     return average_salary
 
 
-def get_from_superjob(languages):
+def get_salary_sj(languages):
     load_dotenv()
     url = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': os.environ['SUPERJOB_TOKEN']}
@@ -61,8 +61,8 @@ def get_from_superjob(languages):
 def main():
     languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++',
                  'CSS', 'C#', 'Shell', 'Go']
-    statistics_sj = transformation_for_table(get_from_superjob(languages))
-    statistics_hh = transformation_for_table(get_from_hh(languages))
+    statistics_sj = transformation_for_table(get_salary_sj(languages))
+    statistics_hh = transformation_for_table(get_salary_hh(languages))
     table_sj = AsciiTable(statistics_sj, 'SuperJob, Moscow')
     table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
     print(table_sj.table)
