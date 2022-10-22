@@ -1,14 +1,14 @@
 import requests
 
 
-def get_vacancies_hh(job_name, number_of_pages, par):
+def get_vacancies_hh(job_name, number_of_pages, params):
     url = 'https://api.hh.ru/vacancies'
     vacancies = list()
     for i in range(number_of_pages):
-        par['page'] = i
-        par['text'] = job_name
+        params['page'] = i
+        params['text'] = job_name
         try:
-            response = requests.get(url, params=par)
+            response = requests.get(url, params=params)
             response.raise_for_status()
             vacancies.append(response.json())
         except requests.exceptions.HTTPError:

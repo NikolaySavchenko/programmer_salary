@@ -10,11 +10,11 @@ import os
 
 def get_salary_hh(languages):
     number_of_pages = 100
-    par = {'area': '1', 'per_page': '50', 'period': '30'}
+    params = {'area': '1', 'per_page': '50', 'period': '30'}
     average_salary = dict()
     for language in languages:
         average_salary[language] = dict()
-        vacancies = get_vacancies_hh(language, number_of_pages, par)
+        vacancies = get_vacancies_hh(language, number_of_pages, params)
         average_salary[language]['vacancies_found'] = vacancies[0]['found']
         vacancies_processed = 0
         sum_salary = 0
