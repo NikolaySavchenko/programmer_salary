@@ -61,10 +61,12 @@ def get_salary_sj(languages, headers):
     return average_salary
 
 
-def main(headers):
+def main():
+    load_dotenv()
+    headers_sj = {'X-Api-App-Id': os.environ['SUPERJOB_TOKEN']}
     languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++',
                  'CSS', 'C#', 'Shell', 'Go']
-    statistics_sj = transformation_for_table(get_salary_sj(languages, headers))
+    statistics_sj = transformation_for_table(get_salary_sj(languages, headers_sj))
     # statistics_hh = transformation_for_table(get_salary_hh(languages))
     table_sj = AsciiTable(statistics_sj, 'SuperJob, Moscow')
     # table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
@@ -73,6 +75,4 @@ def main(headers):
 
 
 if __name__ == '__main__':
-    load_dotenv()
-    headers_sj = {'X-Api-App-Id': os.environ['SUPERJOB_TOKEN']}
-    main(headers_sj)
+    main()
