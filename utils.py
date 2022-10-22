@@ -4,8 +4,8 @@ import requests
 def get_vacancies_hh(job_name, number_of_pages, params):
     url = 'https://api.hh.ru/vacancies'
     vacancies = list()
-    for i in range(number_of_pages):
-        params['page'] = i
+    for page in range(number_of_pages):
+        params['page'] = page
         params['text'] = job_name
         try:
             response = requests.get(url, params=params)
