@@ -41,21 +41,20 @@ def get_salary_sj(languages, headers):
     for language in languages:
         average_salary[language] = dict()
         vacancies = list()
+        vacancies_processed = 0
+        sum_salary = 0
         for page in range(max_page):
             payload = {'keyword': language, 'page': page, 'count': 100,
                 't': moscow_id, 'catalogues': 'Разработка, программирование'}
             response = requests.get(url, params=payload, headers=headers)
-            response.raise_for_status()
+            response.raise_for_status
             vacancies.append(response.json())
-        average_salary[language]['vacancies_found'] = vacancies[0]['total']
-        vacancies_processed = 0
-        sum_salary = 0
-        for page in range(max_page):
-            for vacancy in vacancies[page]['objects']:
-                predict_salary = predict_rub_salary_sj(vacancy)
+            for vacancie in response.json()['objects']:
+                predict_salary = predict_rub_salary_sj(vacancie)
                 if predict_salary:
                     vacancies_processed += 1
                     sum_salary += predict_salary
+        average_salary[language]['vacancies_found'] = vacancies[0]['total']
         average_salary[language]['vacancies_processed'] = vacancies_processed
         average_salary[language]['average_salary'] = int(sum_salary /
                                                         vacancies_processed)
@@ -66,11 +65,11 @@ def main(headers):
     languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++',
                  'CSS', 'C#', 'Shell', 'Go']
     statistics_sj = transformation_for_table(get_salary_sj(languages, headers))
-    statistics_hh = transformation_for_table(get_salary_hh(languages))
+    # statistics_hh = transformation_for_table(get_salary_hh(languages))
     table_sj = AsciiTable(statistics_sj, 'SuperJob, Moscow')
-    table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
+    # table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
     print(table_sj.table)
-    print(table_hh.table)
+    # print(table_hh.table)
 
 
 if __name__ == '__main__':
