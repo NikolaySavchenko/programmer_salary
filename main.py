@@ -1,7 +1,7 @@
 from utils import get_vacancies_hh
 from utils import predict_rub_salary_hh
 from utils import predict_rub_salary_sj
-from utils import transformation_for_table
+from utils import convert_for_table
 from dotenv import load_dotenv
 from terminaltables import AsciiTable
 import requests
@@ -47,7 +47,7 @@ def get_salary_sj(languages, headers):
             payload = {'keyword': language, 'page': page, 'count': 100,
                 't': moscow_id, 'catalogues': 'Разработка, программирование'}
             response = requests.get(url, params=payload, headers=headers)
-            response.raise_for_status
+            response.raise_for_status()
             vacancies.append(response.json())
             for vacancie in response.json()['objects']:
                 predict_salary = predict_rub_salary_sj(vacancie)
@@ -66,12 +66,12 @@ def main():
     headers_sj = {'X-Api-App-Id': os.environ['SUPERJOB_TOKEN']}
     languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++',
                  'CSS', 'C#', 'Shell', 'Go']
-    statistics_sj = transformation_for_table(get_salary_sj(languages, headers_sj))
-    # statistics_hh = transformation_for_table(get_salary_hh(languages))
+    statistics_sj = convert_for_table(get_salary_sj(languages, headers_sj))
+    statistics_hh = convert_for_table(get_salary_hh(languages))
     table_sj = AsciiTable(statistics_sj, 'SuperJob, Moscow')
-    # table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
+    table_hh = AsciiTable(statistics_hh, 'HeadHunter, Moscow')
     print(table_sj.table)
-    # print(table_hh.table)
+    print(table_hh.table)
 
 
 if __name__ == '__main__':
