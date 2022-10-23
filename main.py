@@ -10,7 +10,10 @@ import os
 
 def get_salary_hh(languages):
     number_of_pages = 100
-    params = {'area': '1', 'per_page': '50', 'period': '30'}
+    vacancy_in_page = 50
+    days = 30
+    moscow_area = 1
+    params = {'area': moscow_area, 'per_page': vacancy_in_page, 'period': days}
     average_salary = dict()
     for language in languages:
         average_salary[language] = dict()
@@ -21,10 +24,10 @@ def get_salary_hh(languages):
         for page in range(number_of_pages):
             try:
                 for vacancy in vacancies[page]["items"]:
-                    predict_salary = predict_rub_salary_hh(vacancy)
-                    if predict_salary:
+                    middle_salary = predict_rub_salary_hh(vacancy)
+                    if middle_salary:
                         vacancies_processed += 1
-                        sum_salary += predict_salary
+                        sum_salary += middle_salary
             except IndexError:
                 break
         average_salary[language]['vacancies_processed'] = vacancies_processed
@@ -41,23 +44,24 @@ def get_salary_sj(languages, headers):
     average_salary = dict()
     moscow_id = 4
     max_page = 5
+    vacancy_in_page = 100
     for language in languages:
         average_salary[language] = dict()
         vacancies = list()
         vacancies_processed = 0
         sum_salary = 0
         for page in range(max_page):
-            payload = {'keyword': language, 'page': page, 'count': 100,
+            payload = {'keyword': language, 'page': page, 'count': vacancy_in_page,
                        't': moscow_id, 'catalogues': 'Разработка, программирование'}
             response = requests.get(url, params=payload, headers=headers)
             response.raise_for_status()
             page_vacancies = response.json()
             vacancies.append(page_vacancies)
             for vacancie in page_vacancies['objects']:
-                predict_salary = predict_rub_salary_sj(vacancie)
-                if predict_salary:
+                middle_salary = predict_rub_salary_sj(vacancie)
+                if middle_salary:
                     vacancies_processed += 1
-                    sum_salary += predict_salary
+                    sum_salary += middle_salary
         average_salary[language]['vacancies_found'] = vacancies[0]['total']
         average_salary[language]['vacancies_processed'] = vacancies_processed
         if vacancies_processed:
