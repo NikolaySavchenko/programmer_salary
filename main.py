@@ -51,8 +51,9 @@ def get_salary_sj(languages, headers):
                        't': moscow_id, 'catalogues': 'Разработка, программирование'}
             response = requests.get(url, params=payload, headers=headers)
             response.raise_for_status()
-            vacancies.append(response.json())
-            for vacancie in response.json()['objects']:
+            page_vacancies = response.json()
+            vacancies.append(page_vacancies)
+            for vacancie in page_vacancies['objects']:
                 predict_salary = predict_rub_salary_sj(vacancie)
                 if predict_salary:
                     vacancies_processed += 1
